@@ -1,0 +1,31 @@
+﻿@using DisasterResponseSystem.Models.ViewModels
+@model DonationDonorViewModel
+
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Submit Donation</h2>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="DonorName"></label>
+			<input asp-for="DonorName" class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="DonorEmail"></label>
+			<input asp-for="DonorEmail" class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="DonorMessage"></label>
+			<input asp-for="DonorMessage" class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="DonationAmount"></label>
+			<input asp-for="DonationAmount" class="form-control" />
+		</div>
+		<button type="submit" class="btn btn-primary" style="width:150px">Donate</button>
+		<a asp-controller="Donate" asp-action="Index" class="btn btn-secondary" style="width:150px">
+		Back to List
+		</a>
+	</div>	
+</form>

@@ -1,0 +1,25 @@
+﻿@using DisasterResponseSystem.Models.ViewModels
+@model IEnumerable<DonationDonorViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index Donate</h1>
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Donor Name</th>
+            <th>Donor Message</th>
+            <th>Donation Amount</th>
+        </tr>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td>@obj.DonorName</td>
+                <td>@obj.DonorMessage</td>
+                <td>@obj.DonationAmount</td>
+            </tr>
+        }
+    </thead>
+</table>
