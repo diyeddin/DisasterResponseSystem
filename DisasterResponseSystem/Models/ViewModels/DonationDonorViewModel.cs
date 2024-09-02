@@ -15,5 +15,7 @@ namespace DisasterResponseSystem.Models.ViewModels
 		[EmailAddress]
 		public string DonorEmail { get; set; }
 		public string DonorMessage { get; set; }
-	}
+        [DataType(DataType.Date)]
+        public DateTime? DonationDate { get; set; }
+    }
 }

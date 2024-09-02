@@ -24,8 +24,9 @@ namespace DisasterResponseSystem.Controllers
                 DonationAmount = d.Amount,
                 DonorName = d.Donor.Name,
                 DonorEmail = d.Donor.Email,
-                DonorMessage = d.Donor.Message
-            });
+                DonorMessage = d.Donor.Message,
+				DonationDate = d.DateRecieved
+            }).OrderByDescending(d => d.DonationDate);
 
             return View(objDonationDonorViewModels);
         }

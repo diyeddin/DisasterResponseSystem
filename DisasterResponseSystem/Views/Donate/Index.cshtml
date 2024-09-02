@@ -12,6 +12,7 @@
             <th>Donor Name</th>
             <th>Donor Message</th>
             <th>Donation Amount</th>
+            <th>Timestamp</th>
         </tr>
         @foreach (var obj in Model)
         {
@@ -19,6 +20,7 @@
                 <td>@obj.DonorName</td>
                 <td>@obj.DonorMessage</td>
                 <td>@obj.DonationAmount</td>
+                <td>@obj.DonationDate</td>
             </tr>
         }
     </thead>
