@@ -42,6 +42,10 @@ namespace DisasterResponseSystem.Migrations
                     b.Property<bool>("IsAllocated")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("DonationID");
 
                     b.HasIndex("DonorID");
@@ -57,11 +61,11 @@ namespace DisasterResponseSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DonorID"));
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Message")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -69,9 +73,13 @@ namespace DisasterResponseSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("DonorID");
 
-                    b.ToTable("Donor");
+                    b.ToTable("Donors");
                 });
 
             modelBuilder.Entity("DisasterResponseSystem.Models.Donation", b =>

@@ -9,12 +9,12 @@ namespace DisasterResponseSystem.Models
         [Required]
         //[DataType(DataType.Currency)]
         public int Amount { get; set; }
-
-        public int? DonorID { get; set; }
-        public Donor Donor { get; set; }
+        public string Message { get; set; }
         public bool IsAllocated { get; set; } = false;
-
         [DataType(DataType.Date)]
         public DateTime DateRecieved { get; set; } = DateTime.Now;
+
+        public int? DonorID { get; set; }
+        public Donor Donor { get; set; }        
     }
 }

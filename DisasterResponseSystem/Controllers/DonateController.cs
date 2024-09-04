@@ -24,7 +24,9 @@ namespace DisasterResponseSystem.Controllers
                 DonationAmount = d.Amount,
                 DonorName = d.Donor.Name,
                 DonorEmail = d.Donor.Email,
-                DonorMessage = d.Donor.Message,
+                DonorPhone = d.Donor.Phone,
+                DonorAddress = d.Donor.Address,
+                DonationMessage = d.Message,
 				DonationDate = d.DateRecieved
             }).OrderByDescending(d => d.DonationDate);
 
@@ -49,13 +51,15 @@ namespace DisasterResponseSystem.Controllers
 				{
 					Name = obj.DonorName,
 					Email = obj.DonorEmail,
-					Message = obj.DonorMessage
-				};
+                    Phone = obj.DonorPhone,
+                    Address = obj.DonorAddress
+                };
 
 				var donation = new Donation
 				{
 					Amount = obj.DonationAmount,
-					Donor = donor
+                    Message = obj.DonationMessage,
+                    Donor = donor
 				};
 
 				_context.Donors.Add(donor);

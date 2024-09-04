@@ -6,24 +6,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DisasterResponseSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDonationModelsToDatabase : Migration
+    public partial class AddDonorDonationModelsToDbContext : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Donor",
+                name: "Donors",
                 columns: table => new
                 {
                     DonorID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Donor", x => x.DonorID);
+                    table.PrimaryKey("PK_Donors", x => x.DonorID);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,17 +34,18 @@ namespace DisasterResponseSystem.Migrations
                     DonationID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<int>(type: "int", nullable: false),
-                    DateRecieved = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsAllocated = table.Column<bool>(type: "bit", nullable: false),
+                    DateRecieved = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DonorID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Donations", x => x.DonationID);
                     table.ForeignKey(
-                        name: "FK_Donations_Donor_DonorID",
+                        name: "FK_Donations_Donors_DonorID",
                         column: x => x.DonorID,
-                        principalTable: "Donor",
+                        principalTable: "Donors",
                         principalColumn: "DonorID");
                 });
 
@@ -60,7 +62,7 @@ namespace DisasterResponseSystem.Migrations
                 name: "Donations");
 
             migrationBuilder.DropTable(
-                name: "Donor");
+                name: "Donors");
         }
     }
 }
