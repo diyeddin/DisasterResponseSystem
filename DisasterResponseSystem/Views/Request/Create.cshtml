@@ -1,0 +1,37 @@
+﻿@using DisasterResponseSystem.Models.ViewModels
+@model PersonInNeedRequestViewModel
+
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Submit A Request</h2>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="RecipientName"></label>
+			<input asp-for="RecipientName" class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="RecipientEmail"></label>
+			<input asp-for="RecipientEmail" class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="RecipientPhone"></label>
+			<input asp-for="RecipientPhone" class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="RecipientAddress"></label>
+			<input asp-for="RecipientAddress" class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="RequestDescription"></label>
+			<input asp-for="RequestDescription" class="form-control" />
+		</div>
+		<div class="mb-3">
+			<label asp-for="RequestAmount"></label>
+			<input asp-for="RequestAmount" class="form-control" />
+		</div>
+		<button type="submit" class="btn btn-primary" style="width:150px">Request</button>
+		<a asp-controller="Home" asp-action="Index" class="btn btn-secondary" style="width:150px">Back</a>
+	</div>
+</form>
