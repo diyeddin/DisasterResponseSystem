@@ -11,5 +11,7 @@ namespace DisasterResponseSystem.Data
 
         public DbSet<Donation> Donations{ get; set; }
 		public DbSet<Donor> Donors { get; set; }
-	}
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<PersonInNeed> PeopleInNeed { get; set; }
+    }
 }
