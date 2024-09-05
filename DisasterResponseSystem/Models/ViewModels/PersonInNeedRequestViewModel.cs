@@ -5,6 +5,7 @@ namespace DisasterResponseSystem.Models.ViewModels
 	public class PersonInNeedRequestViewModel
 	{
 		// PersonInNeed properties
+		public int PersonID { get; set; }
 		[Required]
 		[Display(Name = "Name")]
 		public string RecipientName { get; set; }
@@ -28,7 +29,7 @@ namespace DisasterResponseSystem.Models.ViewModels
 		[Display(Name = "Case Description")]
 		public string RequestDescription { get; set; }
 		public string Status { get; set; } = "Pending";
-		//[DataType(DataType.Date)]
-		//public DateTime? RequestDate { get; set; };
+		[DataType(DataType.Date)]
+		public DateTime? RequestDate { get; set; }
 	}
 }

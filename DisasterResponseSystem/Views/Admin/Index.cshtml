@@ -1,0 +1,31 @@
+﻿@using DisasterResponseSystem.Models.ViewModels
+@model IEnumerable<PersonInNeedRequestViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index Request</h1>
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>Recipient Name</th>
+            <th>Requested Amount</th>
+            <th>Status</th>
+            <th>Timestamp</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td>@obj.RecipientName</td>
+                <td>@obj.RequestAmount</td>
+                <td>@obj.Status</td>
+                <td>@obj.RequestDate</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@obj.PersonID">Details</a>
+                </td>
+            </tr>
+        }
+    </thead>
+</table>
