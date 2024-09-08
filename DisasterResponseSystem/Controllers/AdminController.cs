@@ -63,14 +63,26 @@ namespace DisasterResponseSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult Allocate()
+        public async Task<IActionResult> Allocate(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var request = await _context.Requests.FindAsync(id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            return View(request);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Allocate")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Allocate(int? id)
+        public async Task<IActionResult> ConfirmAllocate(int? id)
         {
             if (id == null)
             {
