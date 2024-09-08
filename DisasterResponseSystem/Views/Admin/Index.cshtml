@@ -1,10 +1,12 @@
 ﻿@using DisasterResponseSystem.Models.ViewModels
 @model IEnumerable<PersonInNeedRequestViewModel>
+
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index Request</h1>
+<h1>Available Funds: @ViewData["AvailableFunds"]</h1>
 
 <table class="table table-bordered table-striped" style="width:100%">
     <thead>
@@ -23,7 +25,8 @@
                 <td>@obj.Status</td>
                 <td>@obj.RequestDate</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@obj.PersonID">Details</a>
+                    <a class="btn btn-outline-primary" asp-action="Allocate" asp-route-id="@obj.PersonID">Allocate</a>
+                    <a class="btn btn-outline-secondary" asp-action="Details" asp-route-id="@obj.PersonID">Details</a>
                 </td>
             </tr>
         }
