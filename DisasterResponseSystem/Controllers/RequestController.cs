@@ -1,17 +1,18 @@
 ﻿using DisasterResponseSystem.Data;
 using DisasterResponseSystem.Models;
 using DisasterResponseSystem.Models.ViewModels;
+using DisasterResponseSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DisasterResponseSystem.Controllers
 {
     public class RequestController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public RequestController(ApplicationDbContext context)
+        public RequestController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
@@ -27,7 +28,7 @@ namespace DisasterResponseSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PersonInNeedRequestViewModel obj)
+        public IActionResult Create(PersonInNeedRequestViewModel obj)
         {
             if (ModelState.IsValid)
             {
@@ -47,10 +48,10 @@ namespace DisasterResponseSystem.Controllers
                     PersonInNeed = personInNeed
                 };
 
-                _context.PeopleInNeed.Add(personInNeed);
-                _context.Requests.Add(request);
+                _unitOfWork.PeopleInNeed.Add(personInNeed);
+                _unitOfWork.Requests.Add(request);
 
-                await _context.SaveChangesAsync();
+                _unitOfWork.Complete();
 
                 return RedirectToAction(nameof(Index));
             }

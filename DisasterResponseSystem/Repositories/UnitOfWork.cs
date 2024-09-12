@@ -8,10 +8,16 @@ namespace DisasterResponseSystem.Repositories
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
+            Donors = new DonorRepository(_context);
             Donations = new DonationRepository(_context);
+            PeopleInNeed = new PersonInNeedRepository(_context);
+            Requests = new RequestRepository(_context);
         }
+
         public IDonorRepository Donors { get; private set; }
         public IDonationRepository Donations { get; private set; }
+        public IPersonInNeedRepository PeopleInNeed { get; private set; }
+        public IRequestRepository Requests { get; private set; }
 
         public int Complete()
         {

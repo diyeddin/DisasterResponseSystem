@@ -48,7 +48,7 @@ namespace DisasterResponseSystem.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var donor = new Donor
+				Donor donor = new Donor
 				{
 					Name = obj.DonorName,
 					Email = obj.DonorEmail,
@@ -56,7 +56,7 @@ namespace DisasterResponseSystem.Controllers
 					Address = obj.DonorAddress
 				};
 
-				var donation = new Donation
+				Donation donation = new Donation
 				{
 					Amount = obj.DonationAmount,
 					Message = obj.DonationMessage,
