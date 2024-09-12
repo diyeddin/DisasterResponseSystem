@@ -1,6 +1,7 @@
 ﻿using DisasterResponseSystem.Data;
 using DisasterResponseSystem.Models;
 using DisasterResponseSystem.Models.ViewModels;
+using DisasterResponseSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,16 +9,16 @@ namespace DisasterResponseSystem.Controllers
 {
     public class DonateController : Controller
     {
-		private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-		public DonateController(ApplicationDbContext context)
-		{
-			_context = context;
-		}
+        public DonateController(IUnitOfWork unitOfWork)
+        {
+			_unitOfWork = unitOfWork;
+        }
 
         public IActionResult Index()
         {
-            var objDonationList = _context.Donations.Include(d => d.Donor).ToList(); // Eager loading
+            var objDonationList = _unitOfWork.Donations.GetDonationsWithDonors();
 
             IEnumerable<DonationDonorViewModel> objDonationDonorViewModels = objDonationList.Select(d => new DonationDonorViewModel
             {
@@ -28,7 +29,7 @@ namespace DisasterResponseSystem.Controllers
                 DonorAddress = d.Donor.Address,
                 DonationMessage = d.Message,
 				DonationDate = d.DateRecieved
-            }).OrderByDescending(d => d.DonationDate);
+            });
 
             return View(objDonationDonorViewModels);
         }
@@ -43,7 +44,7 @@ namespace DisasterResponseSystem.Controllers
 		//POST
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(DonationDonorViewModel obj)
+		public IActionResult Create(DonationDonorViewModel obj)
 		{
 			if (ModelState.IsValid)
 			{
@@ -51,21 +52,21 @@ namespace DisasterResponseSystem.Controllers
 				{
 					Name = obj.DonorName,
 					Email = obj.DonorEmail,
-                    Phone = obj.DonorPhone,
-                    Address = obj.DonorAddress
-                };
+					Phone = obj.DonorPhone,
+					Address = obj.DonorAddress
+				};
 
 				var donation = new Donation
 				{
 					Amount = obj.DonationAmount,
-                    Message = obj.DonationMessage,
-                    Donor = donor
+					Message = obj.DonationMessage,
+					Donor = donor
 				};
 
-				_context.Donors.Add(donor);
-				_context.Donations.Add(donation);
+				_unitOfWork.Donors.Add(donor);
+				_unitOfWork.Donations.Add(donation);
 
-				await _context.SaveChangesAsync();
+				_unitOfWork.Complete();
 
 				return RedirectToAction(nameof(Index));
 			}
