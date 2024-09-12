@@ -1,25 +1,24 @@
-﻿using DisasterResponseSystem.Data;
+﻿using DisasterResponseSystem.Models;
 using DisasterResponseSystem.Models.ViewModels;
+using DisasterResponseSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Dynamic;
 
 namespace DisasterResponseSystem.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            var objectRequestList = _context.Requests.Include(r => r.PersonInNeed).ToList();
+            IEnumerable<Request> objectRequestList = _unitOfWork.Requests.GetRequestsWithPeopleInNeed();
 
-            IEnumerable<PersonInNeedRequestViewModel> objPersonInNeedRequestViewModels = objectRequestList.Select(r => new PersonInNeedRequestViewModel
+            IEnumerable <PersonInNeedRequestViewModel> objPersonInNeedRequestViewModels = objectRequestList.Select(r => new PersonInNeedRequestViewModel
             {
                 PersonID = r.PersonInNeed.PersonInNeedID,
                 RecipientName = r.PersonInNeed.Name,
@@ -42,17 +41,14 @@ namespace DisasterResponseSystem.Controllers
         }
 
         // GET: Requests/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var personInNeed = await _context.PeopleInNeed
-                .Include(r => r.Requests)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.PersonInNeedID == id);
+            PersonInNeed personInNeed = _unitOfWork.PeopleInNeed.GetPersonInNeedWithRequest(id);
 
             if (personInNeed == null)
             {
@@ -63,14 +59,14 @@ namespace DisasterResponseSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Allocate(int? id)
+        public IActionResult Allocate(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var request = await _context.Requests.FindAsync(id);
+            var request = _unitOfWork.Requests.Get(id);
 
             if (request == null)
             {
@@ -82,14 +78,14 @@ namespace DisasterResponseSystem.Controllers
 
         [HttpPost, ActionName("Allocate")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmAllocate(int? id)
+        public IActionResult ConfirmAllocate(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var request = await _context.Requests.FindAsync(id);
+            var request = _unitOfWork.Requests.Get(id);
 
             if (request == null)
             {
@@ -104,8 +100,7 @@ namespace DisasterResponseSystem.Controllers
             {
                 request.Status = "Allocated";
                 request.AllocatedAmount = request.RequestedAmount;
-                _context.Update(request);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Complete();
             }
 
             return RedirectToAction(nameof(Index));
@@ -113,7 +108,7 @@ namespace DisasterResponseSystem.Controllers
 
         private int getAvailableFunds()
         {
-            var availableFunds = _context.Donations.Sum(d => d.Amount) - _context.Requests.Sum(r => r.AllocatedAmount);
+            var availableFunds = _unitOfWork.Donations.Sum(d => d.Amount) - _unitOfWork.Requests.Sum(r => r.AllocatedAmount);
 
             return availableFunds;
         }

@@ -11,7 +11,7 @@ namespace DisasterResponseSystem.Repositories
             _context = context;
         }
 
-        public TEntity Get(int id)
+        public TEntity Get(int? id)
         {
             return _context.Set<TEntity>().Find(id);
         }
@@ -24,6 +24,12 @@ namespace DisasterResponseSystem.Repositories
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
             return _context.Set<TEntity>().Where(predicate);
+        }
+
+        public int Sum(Expression<Func<TEntity, int>> selector)
+        {
+            return _context.Set<TEntity>()
+                .Sum(selector);
         }
 
         public void Add(TEntity entity)

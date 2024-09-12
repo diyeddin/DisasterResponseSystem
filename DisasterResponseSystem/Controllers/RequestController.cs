@@ -1,5 +1,4 @@
-﻿using DisasterResponseSystem.Data;
-using DisasterResponseSystem.Models;
+﻿using DisasterResponseSystem.Models;
 using DisasterResponseSystem.Models.ViewModels;
 using DisasterResponseSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
